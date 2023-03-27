@@ -11,6 +11,7 @@ postRouter.get("/",async(req,res)=>{
         const vtoken=jwt.verify(token,"eval4")
         console.log(vtoken);
         const posts = await PostModel.find({userId:vtoken.userId})//{$and:[{userId},{device:{$in:device}}]}
+        res.send(posts)
     } catch (err) {
         res.send(err.message);
     }
@@ -37,7 +38,7 @@ postRouter.patch("/update/:id",async(req,res)=>{
     }
 })
 
-postRouter.delete("/delete/id",async(req,res)=>{
+postRouter.delete("/delete/:id",async(req,res)=>{
     const postId=req.params.id;
     try {
         await PostModel.findByIdAndDelete({_id:postId});
